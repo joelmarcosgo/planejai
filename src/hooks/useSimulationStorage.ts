@@ -1,13 +1,17 @@
-import type { SimulationFormData } from '../data/simulation'
+import type { SimulationFormData } from '../data/simulation';
 
 const LOCAL_STORAGE_KEY = 'simulation-data'
 
-export type SimulationRecord = SimulationFormData & { id: string }
+export type SimulationRecord = SimulationFormData & { id: string; createdAt?: string }
 
 export const useSimulationStorage = () => {
   const saveFormData = (formData: SimulationFormData) => {
     const id = crypto.randomUUID()
-    const record: SimulationRecord = { id, ...formData }
+    const record: SimulationRecord = {
+      id,
+      createdAt: new Date().toISOString(),
+      ...formData,
+    }
 
     const storage = localStorage.getItem(LOCAL_STORAGE_KEY)
     const savedData = storage

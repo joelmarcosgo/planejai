@@ -1,4 +1,4 @@
-import { EyeIcon, Trash } from 'lucide-react'
+import { EyeIcon, Goal, Trash } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button } from '../components/shared/Button'
@@ -34,62 +34,79 @@ export function SimulationHistoryPage() {
           <p className="mt-2 text-sm">Faça sua primeira simulação e ela aparecerá aqui automaticamente.</p>
         </div>
       ) : (
-        <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+        <div className="space-y-6">
           {simulations.map((simulation) => {
             const monthlySavings = calcMonthlySavings(simulation)
+            const createdAt = simulation.createdAt
+              ? new Date(simulation.createdAt).toLocaleDateString('pt-BR')
+              : ''
+
             return (
               <article
                 key={simulation.id}
-                className="rounded-[28px] border border-border bg-card p-6 shadow-[4px_8px_24px_rgba(0,0,0,0.12)]"
+                className="flex flex-col items-center justify-between gap-4 rounded-[28px] border border-border bg-card px-6 py-5 shadow-[4px_8px_24px_rgba(0,0,0,0.12)] lg:flex-row"
               >
-                <div className="mb-4 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-                  <div>
-                    <p className="text-sm font-semibold uppercase tracking-[0.25em] text-muted-foreground">
+                <div className="flex min-w-0 items-center gap-4">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-3xl bg-primary/10 text-primary">
+                    <Goal size={22} />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                       {simulation.goalName}
                     </p>
-                    <p className="mt-2 text-2xl font-semibold text-foreground">{`R$ ${simulation.goalAmount}`}</p>
+                    <p className="mt-2 text-xl font-semibold text-foreground">{`R$ ${simulation.goalAmount}`}</p>
+                    {createdAt && (
+                      <p className="mt-1 text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                        {createdAt}
+                      </p>
+                    )}
                   </div>
+                </div>
+
+                <div className="flex flex-1 flex-wrap items-center justify-between gap-3">
+                  <div className="min-w-[160px] rounded-[20px] bg-secondary px-4 py-3 text-center text-sm text-foreground shadow-sm">
+                    <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Custo da meta</p>
+                    <p className="mt-2 font-semibold">R$ {simulation.goalAmount}</p>
+                  </div>
+                  <div className="min-w-[160px] rounded-[20px] bg-secondary px-4 py-3 text-center text-sm text-foreground shadow-sm">
+                    <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Prazo</p>
+                    <p className="mt-2 font-semibold">{simulation.goalDeadline} meses</p>
+                  </div>
+                  <div className="min-w-[160px] rounded-[20px] bg-secondary px-4 py-3 text-center text-sm text-foreground shadow-sm">
+                    <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Economia mensal</p>
+                    <p className="mt-2 font-semibold">
+                      R$ {monthlySavings.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  {/* <button
+                    type="button"
+                    onClick={() => handleDelete(simulation.id)}
+                    className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-destructive text-destructive transition hover:bg-destructive/10"
+                    aria-label="Excluir simulação"
+                  >
+                    <Trash size={18} />
+                  </button> */}
+                  
                   <Button
                     type="button"
-                    variant="secondary"
-                    className="rounded-full border border-destructive px-3 py-2 text-sm font-semibold text-destructive transition hover:bg-destructive/10"
+                    variant="destructive"
+                    className="inline-flex items-center justify-center"
                     onClick={() => handleDelete(simulation.id)}
                   >
-                    <Trash size={16} />
-                    Excluir
+                    <Trash size={18} />
                   </Button>
-                </div>
-
-                <div className="mb-6 space-y-3 text-sm text-muted-foreground">
-                  <div className="flex items-center justify-between rounded-2xl bg-secondary p-3 text-foreground">
-                    <span>Prazo</span>
-                    <strong>{simulation.goalDeadline} meses</strong>
-                  </div>
-                  <div className="flex items-center justify-between rounded-2xl bg-secondary p-3 text-foreground">
-                    <span>Economia mensal</span>
-                    <strong>
-                      R$ {monthlySavings.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                    </strong>
-                  </div>
-                  <div className="flex items-center justify-between rounded-2xl bg-secondary p-3 text-foreground">
-                    <span>Insight</span>
-                    <strong>{simulation.insight ? 'Gerado' : 'Pendente'}</strong>
-                  </div>
-                </div>
-
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                   <Button
                     type="button"
                     variant="details"
-                    className="rounded-full bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90"
+                    className="h-11 rounded-full bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90"
                     onClick={() => navigate(`/resultado/${simulation.id}`)}
                   >
                     <EyeIcon size={16} />
                     Ver detalhes
                   </Button>
-                  <span className="inline-flex items-center justify-center rounded-full bg-secondary px-3 py-1 text-xs font-semibold uppercase text-secondary-foreground">
-                    {simulation.insight ? 'Insight pronto' : 'Sem insight'}
-                  </span>
                 </div>
               </article>
             )
