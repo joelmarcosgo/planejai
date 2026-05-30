@@ -9,7 +9,7 @@ export const useInsight = (id: string) => {
   const { getFormData, updateSimulation } = useSimulationStorage()
   const isRequestPending = useRef(false)
   
-  const [insight, setInsight] = useState<InsightData | null>(
+  const [insight, setInsight] = useState<InsightData | any>(
     () => {
       const simulation = getFormData(id)
 

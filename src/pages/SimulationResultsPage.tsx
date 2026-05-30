@@ -3,18 +3,8 @@ import { useParams } from "react-router-dom"
 import { AIInsightsCard } from "../components/features/SimulationResults/AIInsightsCard"
 import { Card } from "../components/features/SimulationResults/Card"
 import { PageHero } from "../components/shared/PageHero"
-import type { SimulationFormData } from "../data/simulation"
 import { useSimulationStorage } from "../hooks/useSimulationStorage"
 import { calcMonthlySavings } from "../utils/simulation"
-
-const mock: SimulationFormData = {
-  income: 'R$ 5.000,00',
-  expenses: 'R$ 2.000,00',
-  debts: 'R$ 500,00',
-  goalName: 'Viagem para o Japão',
-  goalAmount: 'R$ 15.000,00',
-  goalDeadline: '12',
-}
 
 export function SimulationResultsPage() {
   const { id } = useParams<{ id: string }>()
