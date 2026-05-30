@@ -2,7 +2,7 @@ import type { LucideIcon } from 'lucide-react'
 import type { ButtonHTMLAttributes } from 'react'
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant: 'primary' | 'secondary' | 'ghost' | 'details' | 'destructive'
+  variant: 'primary' | 'secondary' | 'ghost' | 'details' | 'destructive' | 'send'
   icon?: LucideIcon
 }
 
@@ -22,6 +22,7 @@ export function Button({
     ghost: 'rounded-lg text-foreground',
     details: 'rounded-full bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90',
     destructive: 'rounded-full border border-red-600 bg-red-100 text-red-600 transition hover:bg-red-200',
+    send: 'rounded-full bg-primary px-5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90 disabled:opacity-50',
   }
 
   return (

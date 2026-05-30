@@ -170,11 +170,12 @@ export function EducatorChat({ simulation, insight }: EducatorChatProps) {
             }
           }}
           disabled={isLoading}
+          className="flex-1 rounded-full bg-card px-4 py-3 text-sm text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary disabled:cursor-not-allowed disabled:opacity-50"
         />
         <Button
           type="button"
-          variant="primary"
-          className="inline-flex h-12 items-center justify-center rounded-full bg-primary px-5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90 disabled:opacity-50"
+          variant="send"
+          className="inline-flex h-12 items-center justify-center"
           onClick={handleSendMessage}
           disabled={isLoading || !input.trim()}
         >
