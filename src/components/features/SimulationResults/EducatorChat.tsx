@@ -73,7 +73,8 @@ export function EducatorChat({ simulation, insight }: EducatorChatProps) {
       <div className="mb-4 max-h-[520px] divide-y divide-border overflow-y-auto rounded-[28px] bg-secondary/30 bg-opacity-90">
         {insight && (
           <div className="space-y-3 px-5 py-5">
-            <div className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+            <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+              <MessageCircle size={18} />
               Resposta da IA
             </div>
             <div className="rounded-[28px] bg-card p-5 text-sm leading-relaxed">
@@ -90,8 +91,9 @@ export function EducatorChat({ simulation, insight }: EducatorChatProps) {
 
         {messages.map((message) => (
           <div key={message.id} className="space-y-3 px-5 py-5">
-            <div className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-              <MessageCircle size={18}/> {message.role === 'user' ? 'Você' : 'Resposta da IA'}
+            <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+              <MessageCircle size={18} />
+              {message.role === 'user' ? 'Você' : 'Resposta da IA'}
             </div>
             <div className="rounded-[28px] bg-card p-5 text-sm leading-relaxed text-foreground">
               {message.content}
@@ -101,7 +103,8 @@ export function EducatorChat({ simulation, insight }: EducatorChatProps) {
 
         {isLoading && (
           <div className="space-y-3 px-5 py-5">
-            <div className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+            <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+              <MessageCircle size={18} />
               Resposta da IA
             </div>
             <div className="rounded-[28px] bg-card p-5 text-sm leading-relaxed">
@@ -146,19 +149,6 @@ export function EducatorChat({ simulation, insight }: EducatorChatProps) {
       </div>
 
       <div className="flex flex-col gap-3 rounded-[28px] bg-secondary p-4 sm:flex-row sm:items-center">
-        {/* <input
-          type="text"
-          placeholder="Faça uma nova pergunta sobre sua simulação..."
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyPress={(e) => {
-            if (e.key === 'Enter' && !isLoading) {
-              handleSendMessage()
-            }
-          }}
-          disabled={isLoading}
-          className="flex-1 rounded-full bg-card px-4 py-3 text-sm text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary disabled:cursor-not-allowed disabled:opacity-50"
-        /> */}
         <Input
           type="text"
           placeholder="Faça uma nova pergunta sobre sua simulação..."
@@ -170,7 +160,7 @@ export function EducatorChat({ simulation, insight }: EducatorChatProps) {
             }
           }}
           disabled={isLoading}
-          className="flex-1 rounded-full bg-card px-4 py-3 text-sm text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary disabled:cursor-not-allowed disabled:opacity-50"
+          className="flex-1 min-w-0 rounded-full bg-card px-4 py-3 text-sm text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary disabled:cursor-not-allowed disabled:opacity-50"
         />
         <Button
           type="button"
