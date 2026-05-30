@@ -76,6 +76,64 @@ const callGeminiAPI = async (prompt: string) => {
   return text
 }
 
+const tryParseJson = (text: string) => {
+  try {
+    return JSON.parse(text.trim())
+  } catch {
+    return null
+  }
+}
+
+const formatJsonAsFriendlyText = (json: unknown): string => {
+  if (!json || typeof json !== 'object') {
+    return String(json)
+  }
+
+  const data = json as Record<string, unknown>
+  const paragraphs: string[] = []
+
+  if (data.feasibility && typeof data.feasibility === 'object') {
+    const feasibility = data.feasibility as Record<string, unknown>
+    if (typeof feasibility.content === 'string') {
+      paragraphs.push(feasibility.content)
+    }
+  }
+
+  if (data.diagnosis && typeof data.diagnosis === 'object') {
+    const diagnosis = data.diagnosis as Record<string, unknown>
+    if (typeof diagnosis.content === 'string') {
+      paragraphs.push(diagnosis.content)
+    }
+  }
+
+  const addItems = (section: unknown) => {
+    if (section && typeof section === 'object') {
+      const sectionObject = section as Record<string, unknown>
+      const items = sectionObject.items
+      if (Array.isArray(items) && items.length > 0) {
+        paragraphs.push(items.filter((item) => typeof item === 'string').join(' '))
+      }
+    }
+  }
+
+  addItems(data.suggestions)
+  addItems(data.extraIncome)
+  addItems(data.investment)
+
+  if (data.motivation && typeof data.motivation === 'object') {
+    const motivation = data.motivation as Record<string, unknown>
+    if (typeof motivation.content === 'string') {
+      paragraphs.push(motivation.content)
+    }
+  }
+
+  if (paragraphs.length === 0) {
+    return JSON.stringify(json, null, 2)
+  }
+
+  return paragraphs.join('\n\n')
+}
+
 export interface InsightData {
   feasibility: {
     status: 'viable' | 'needs_adjustment' | 'unfeasible'
@@ -93,6 +151,22 @@ export const getInsight = async (prompt: string) => {
   return JSON.parse(responseText) as InsightData
 }
 
-export const askGemini = async (prompt: string) => {
-  return await callGeminiAPI(prompt)
+export type AskGeminiOptions = {
+  formatFriendlyResponse?: boolean
+}
+
+export const askGemini = async (
+  prompt: string,
+  options?: AskGeminiOptions,
+) => {
+  const responseText = await callGeminiAPI(prompt)
+
+  if (options?.formatFriendlyResponse) {
+    const parsedJson = tryParseJson(responseText)
+    if (parsedJson) {
+      return formatJsonAsFriendlyText(parsedJson)
+    }
+  }
+
+  return responseText
 }

@@ -9,7 +9,9 @@ export const askEducator = async (
   const { income, expenses, debts, goalName, goalAmount, goalDeadline } = simulation
   const monthlySavings = calcMonthlySavings(simulation)
 
-  const conversationPrompt = `Você é um educador financeiro amigável e didático. A seguir estão os dados de uma simulação financeira de um usuário. Responda à pergunta de forma clara, empática e objetiva, usando linguagem simples e sem termos técnicos difíceis. Não retorne JSON, não use markdown, nem blocos de código.
+  const conversationPrompt = `Você é um educador financeiro muito amigável, claro e direto. Leia os dados da simulação abaixo e responda à pergunta em linguagem natural, como se estivesse explicando para um amigo.
+
+Use apenas texto corrido em português do Brasil. Não retorne JSON, não use listas numeradas, não use markdown, não use blocos de código e não use estruturas de dados. Seja simpático, empático e evite termos técnicos.
 
 Dados da simulação:
 - Renda mensal bruta: ${income}
@@ -24,6 +26,8 @@ Pergunta do usuário: "${question}"
 
 Responda como um educador financeiro experiente e encorajador.`
 
-  const response = await askGemini(conversationPrompt)
+  const response = await askGemini(conversationPrompt, {
+    formatFriendlyResponse: true,
+  })
   return response
 }
