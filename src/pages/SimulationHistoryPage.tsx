@@ -47,7 +47,7 @@ export function SimulationHistoryPage() {
                     <p className="text-sm font-semibold uppercase tracking-[0.25em] text-muted-foreground">
                       {simulation.goalName}
                     </p>
-                    <p className="mt-2 text-2xl font-semibold text-foreground">{simulation.goalAmount}</p>
+                    <p className="mt-2 text-2xl font-semibold text-foreground">{`R$ ${simulation.goalAmount}`}</p>
                   </div>
                   <Button
                     type="button"
