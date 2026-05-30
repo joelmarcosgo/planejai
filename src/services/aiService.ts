@@ -41,10 +41,18 @@ const callGeminiAPI = async (prompt: string) => {
   })
 
   if (!response.ok) {
-    throw new Error(`Erro na requisição: ${response.status}`)
+    const errorText = await response.text()
+    throw new Error(errorText || `Erro na requisição: ${response.status}`)
   }
 
-  return (await response.json()) as GeminiResponse
+  const data = (await response.json()) as GeminiResponse
+  const text = data.candidates?.[0]?.content?.parts?.[0]?.text
+
+  if (!text) {
+    throw new Error('Resposta inválida do Gemini')
+  }
+
+  return text
 }
 
 export interface InsightData {
@@ -60,7 +68,10 @@ export interface InsightData {
 }
 
 export const getInsight = async (prompt: string) => {
-  const response = await callGeminiAPI(prompt)
-  const json = response.candidates[0].content.parts[0].text
-  return JSON.parse(json) as InsightData
+  const responseText = await callGeminiAPI(prompt)
+  return JSON.parse(responseText) as InsightData
+}
+
+export const askGemini = async (prompt: string) => {
+  return await callGeminiAPI(prompt)
 }
