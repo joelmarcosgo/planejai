@@ -2,7 +2,6 @@ import { AlertTriangle, CalendarClock, Clock, CreditCardIcon, Goal, Landmark, Pi
 import { useNavigate, useParams } from "react-router-dom"
 import { AIInsightsCard } from "../components/features/SimulationResults/AIInsightsCard"
 import { Card } from "../components/features/SimulationResults/Card"
-import { EducatorChat } from "../components/features/SimulationResults/EducatorChat"
 import { Button } from "../components/shared/Button"
 import { PageHero } from "../components/shared/PageHero"
 import { useSimulationStorage } from "../hooks/useSimulationStorage"
@@ -84,7 +83,7 @@ export function SimulationResultsPage() {
         />
       </div>
       <div className="grid gap-6 lg:grid-cols-3">
-        <AIInsightsCard simulationId={data.id} />
+        <AIInsightsCard simulation={data} />
         <div className="order-1 flex flex-col gap-6 lg:order-2">
           <Card
             icon={Wallet}
@@ -105,9 +104,6 @@ export function SimulationResultsPage() {
             subtitle="Valor comprometido em parcelas/depósito"
           />
         </div>
-      </div>
-      <div className="mt-8">
-        <EducatorChat simulation={data} />
       </div>
     </main>
   )
