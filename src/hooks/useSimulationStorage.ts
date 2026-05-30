@@ -1,4 +1,4 @@
-import { type SimulationFormData } from '../data/simulation'
+import type { SimulationFormData } from '../data/simulation'
 
 const LOCAL_STORAGE_KEY = 'simulation-data'
 
@@ -22,6 +22,11 @@ export const useSimulationStorage = () => {
     return id
   }
 
+  const listSimulations = (): SimulationRecord[] => {
+    const storage = localStorage.getItem(LOCAL_STORAGE_KEY)
+    return storage ? (JSON.parse(storage) as SimulationRecord[]) : []
+  }
+
   const getFormData = (id: string): SimulationRecord | null => {
     const storage = localStorage.getItem(LOCAL_STORAGE_KEY)
     if (!storage) {
@@ -43,5 +48,19 @@ export const useSimulationStorage = () => {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updated))
   }
 
-  return { saveFormData, getFormData, updateSimulation }
+  const deleteSimulation = (id: string) => {
+    const storage = localStorage.getItem(LOCAL_STORAGE_KEY)
+    const savedData = storage ? (JSON.parse(storage) as SimulationRecord[]) : []
+    const updated = savedData.filter((record) => record.id !== id)
+
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updated))
+  }
+
+  return {
+    saveFormData,
+    listSimulations,
+    getFormData,
+    updateSimulation,
+    deleteSimulation,
+  }
 }

@@ -1,18 +1,57 @@
-import { CalendarClock, CreditCardIcon, Goal, Landmark, PiggyBank, Wallet } from "lucide-react"
-import { useParams } from "react-router-dom"
+import { AlertTriangle, CalendarClock, Clock, CreditCardIcon, Goal, Landmark, PiggyBank, TrendingUp, Wallet } from "lucide-react"
+import { useNavigate, useParams } from "react-router-dom"
 import { AIInsightsCard } from "../components/features/SimulationResults/AIInsightsCard"
 import { Card } from "../components/features/SimulationResults/Card"
+// import { EducatorChat } from "../components/features/SimulationResults/EducatorChat"
+import { Button } from "../components/shared/Button"
 import { PageHero } from "../components/shared/PageHero"
 import { useSimulationStorage } from "../hooks/useSimulationStorage"
 import { calcMonthlySavings } from "../utils/simulation"
 
 export function SimulationResultsPage() {
+  const navigate = useNavigate()
   const { id } = useParams<{ id: string }>()
   const { getFormData } = useSimulationStorage()
   const data = id ? getFormData(id) : null
 
   if (!data) {
-    return <p>Simulação não encontrada.</p>
+    return (
+      <main className="mx-auto max-w-4xl px-4 py-14 sm:px-6">
+        <div className="rounded-[32px] border border-border bg-card p-10 text-center shadow-[4px_8px_24px_rgba(0,0,0,0.12)]">
+          <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-destructive/10 text-destructive">
+            <span className="text-3xl font-bold">
+              <AlertTriangle size={60} />
+            </span>
+          </div>
+          <h1 className="mb-4 text-3xl font-semibold text-foreground sm:text-4xl">
+            Simulação não encontrada
+          </h1>
+          <p className="mx-auto max-w-xl text-sm leading-6 text-muted-foreground sm:text-base">
+            Não foi possível carregar os dados desta simulação. Verifique se o link está correto ou volte para o histórico para tentar outra simulação.
+          </p>
+          <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+            <Button
+              type="button"
+              variant="details"
+              className="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90"
+              onClick={() => navigate('/')}
+            >
+              <TrendingUp size={16} />
+              Nova simulação
+            </Button>
+            <Button
+              type="button"
+              variant="secondary"
+              className="inline-flex items-center justify-center rounded-full border border-border bg-transparent px-6 py-3 text-sm font-semibold text-foreground transition hover:bg-secondary"
+              onClick={() => navigate('/historico')}
+            >
+              <Clock size={16} />
+              Ver Histórico
+            </Button>
+          </div>
+        </div>
+      </main>
+    )
   }
 
   const monthlySavings = calcMonthlySavings(data)
@@ -67,6 +106,9 @@ export function SimulationResultsPage() {
           />
         </div>
       </div>
+      {/* <div className="mt-8">
+        <EducatorChat simulation={data} />
+      </div> */}
     </main>
   )
 }
