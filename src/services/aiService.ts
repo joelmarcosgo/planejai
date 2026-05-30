@@ -42,7 +42,28 @@ const callGeminiAPI = async (prompt: string) => {
 
   if (!response.ok) {
     const errorText = await response.text()
-    throw new Error(errorText || `Erro na requisição: ${response.status}`)
+
+    try {
+      const errorJson = JSON.parse(errorText)
+      const code = errorJson?.error?.code
+      const message = errorJson?.error?.message
+
+      if (code === 503) {
+        throw new Error(
+          'A IA está ocupada no momento. Tente novamente em alguns segundos.',
+        )
+      }
+
+      throw new Error(message || `Erro na requisição: ${response.status}`)
+    } catch {
+      if (errorText.includes('high demand')) {
+        throw new Error(
+          'A IA está ocupada no momento. Tente novamente em alguns segundos.',
+        )
+      }
+
+      throw new Error(errorText || `Erro na requisição: ${response.status}`)
+    }
   }
 
   const data = (await response.json()) as GeminiResponse

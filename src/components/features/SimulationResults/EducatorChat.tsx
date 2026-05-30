@@ -14,6 +14,7 @@ export function EducatorChat({ simulation }: EducatorChatProps) {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [input, setInput] = useState('')
+  const [lastQuestion, setLastQuestion] = useState<string | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   const scrollToBottom = () => {
@@ -24,20 +25,21 @@ export function EducatorChat({ simulation }: EducatorChatProps) {
     scrollToBottom()
   }, [messages])
 
-  const handleSendMessage = async () => {
-    if (!input.trim()) return
+  const sendQuestion = async (question: string, saveUserMessage = true) => {
+    if (!question.trim()) return
 
-    const userMessage = input.trim()
-    setInput('')
     setError(null)
 
-    const savedUserMessage = saveMessage(simulation.id, 'user', userMessage)
-    setMessages((prev) => [...prev, savedUserMessage])
+    if (saveUserMessage) {
+      const savedUserMessage = saveMessage(simulation.id, 'user', question)
+      setMessages((prev) => [...prev, savedUserMessage])
+      setLastQuestion(question)
+    }
 
     setIsLoading(true)
 
     try {
-      const response = await askEducator(userMessage, simulation)
+      const response = await askEducator(question, simulation)
       const savedAssistantMessage = saveMessage(simulation.id, 'assistant', response)
       setMessages((prev) => [...prev, savedAssistantMessage])
     } catch (err) {
@@ -46,6 +48,19 @@ export function EducatorChat({ simulation }: EducatorChatProps) {
     } finally {
       setIsLoading(false)
     }
+  }
+
+  const handleSendMessage = async () => {
+    const userMessage = input.trim()
+    if (!userMessage) return
+
+    setInput('')
+    await sendQuestion(userMessage, true)
+  }
+
+  const handleRetry = async () => {
+    if (!lastQuestion) return
+    await sendQuestion(lastQuestion, false)
   }
 
   return (
@@ -81,24 +96,41 @@ export function EducatorChat({ simulation }: EducatorChatProps) {
 
         {isLoading && (
           <div className="flex gap-3">
-            <div className="space-y-2 flex-1">
-              <div className="h-4 w-3/4 animate-pulse rounded bg-muted"></div>
-              <div className="h-4 w-full animate-pulse rounded bg-muted"></div>
-              <div className="h-4 w-2/3 animate-pulse rounded bg-muted"></div>
+            <div className="flex-1 rounded-2xl border border-border bg-card p-4 text-sm text-foreground shadow-sm">
+              <div className="mb-2 text-xs uppercase tracking-[0.18em] text-muted-foreground">
+                Educador Financeiro está digitando...
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-primary" />
+                <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-primary" />
+                <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-primary" />
+              </div>
             </div>
           </div>
         )}
 
         {error && (
           <div className="rounded-2xl border border-destructive bg-destructive/10 p-3 text-sm text-destructive">
-            {error}
-            <button
-              type="button"
-              onClick={() => setError(null)}
-              className="ml-2 font-semibold underline"
-            >
-              Descartar
-            </button>
+            <div>{error}</div>
+            <div className="mt-3 flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={() => setError(null)}
+                className="rounded-full border border-destructive px-3 py-2 text-xs font-semibold transition hover:bg-destructive/10"
+              >
+                Descartar
+              </button>
+              {lastQuestion && (
+                <button
+                  type="button"
+                  onClick={handleRetry}
+                  disabled={isLoading}
+                  className="rounded-full bg-primary px-3 py-2 text-xs font-semibold text-primary-foreground transition hover:bg-primary/90 disabled:opacity-50"
+                >
+                  Tentar novamente
+                </button>
+              )}
+            </div>
           </div>
         )}
 
