@@ -1,9 +1,11 @@
-import { Send } from 'lucide-react'
+import { MessageCircle, Send } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { askEducator } from '../../../data/educatorChat'
 import type { SimulationRecord } from '../../../data/simulation'
 import { useConversationStorage } from '../../../hooks/useConversationStorage'
 import type { InsightData } from '../../../services/aiService'
+import { Button } from '../../shared/Button'
+import { Input } from '../../shared/Input'
 import { Content } from '../Insights/Content'
 
 interface EducatorChatProps {
@@ -89,15 +91,9 @@ export function EducatorChat({ simulation, insight }: EducatorChatProps) {
         {messages.map((message) => (
           <div key={message.id} className="space-y-3 px-5 py-5">
             <div className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-              {message.role === 'user' ? 'Você' : 'Resposta da IA'}
+              <MessageCircle size={18}/> {message.role === 'user' ? 'Você' : 'Resposta da IA'}
             </div>
-            <div
-              className={`rounded-[28px] bg-card p-5 text-sm leading-relaxed ${
-                message.role === 'user'
-                  ? 'text-primary-foreground'
-                  : 'text-foreground'
-              }`}
-            >
+            <div className="rounded-[28px] bg-card p-5 text-sm leading-relaxed text-foreground">
               {message.content}
             </div>
           </div>
@@ -150,7 +146,7 @@ export function EducatorChat({ simulation, insight }: EducatorChatProps) {
       </div>
 
       <div className="flex flex-col gap-3 rounded-[28px] bg-secondary p-4 sm:flex-row sm:items-center">
-        <input
+        {/* <input
           type="text"
           placeholder="Faça uma nova pergunta sobre sua simulação..."
           value={input}
@@ -161,16 +157,29 @@ export function EducatorChat({ simulation, insight }: EducatorChatProps) {
             }
           }}
           disabled={isLoading}
-          className="flex-1 rounded-full bg-card px-4 py-3 text-sm placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary disabled:cursor-not-allowed disabled:opacity-50"
+          className="flex-1 rounded-full bg-card px-4 py-3 text-sm text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary disabled:cursor-not-allowed disabled:opacity-50"
+        /> */}
+        <Input
+          type="text"
+          placeholder="Faça uma nova pergunta sobre sua simulação..."
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyPress={(e) => {
+            if (e.key === 'Enter' && !isLoading) {
+              handleSendMessage()
+            }
+          }}
+          disabled={isLoading}
         />
-        <button
+        <Button
           type="button"
+          variant="primary"
+          className="inline-flex h-12 items-center justify-center rounded-full bg-primary px-5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90 disabled:opacity-50"
           onClick={handleSendMessage}
           disabled={isLoading || !input.trim()}
-          className="inline-flex h-12 items-center justify-center rounded-full bg-primary px-5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90 disabled:opacity-50"
         >
           <Send size={18} />
-        </button>
+        </Button>
       </div>
     </div>
   )
