@@ -2,7 +2,7 @@ import { AlertTriangle, CalendarClock, Clock, CreditCardIcon, Goal, Landmark, Pi
 import { useNavigate, useParams } from "react-router-dom"
 import { AIInsightsCard } from "../components/features/SimulationResults/AIInsightsCard"
 import { Card } from "../components/features/SimulationResults/Card"
-// import { EducatorChat } from "../components/features/SimulationResults/EducatorChat"
+import { EducatorChat } from "../components/features/SimulationResults/EducatorChat"
 import { Button } from "../components/shared/Button"
 import { PageHero } from "../components/shared/PageHero"
 import { useSimulationStorage } from "../hooks/useSimulationStorage"
@@ -106,9 +106,9 @@ export function SimulationResultsPage() {
           />
         </div>
       </div>
-      {/* <div className="mt-8">
+      <div className="mt-8">
         <EducatorChat simulation={data} />
-      </div> */}
+      </div>
     </main>
   )
 }
