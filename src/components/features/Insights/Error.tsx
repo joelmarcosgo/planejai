@@ -1,6 +1,6 @@
 import { RefreshCw } from 'lucide-react'
 
-import { Button } from '../../shared/Button'
+import { Button } from '@/components/shared/Button'
 
 interface ErrorProps {
   simulationId: string

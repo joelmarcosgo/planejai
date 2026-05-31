@@ -1,11 +1,11 @@
+import { AIInsightsCard } from "@/components/features/SimulationResults/AIInsightsCard"
+import { Card } from "@/components/features/SimulationResults/Card"
+import { Button } from "@/components/shared/Button"
+import { PageHero } from "@/components/shared/PageHero"
+import { useSimulationStorage } from "@/hooks/useSimulationStorage"
+import { calcMonthlySavings } from "@/utils/simulation"
 import { AlertTriangle, CalendarClock, Clock, CreditCardIcon, Goal, Landmark, PiggyBank, TrendingUp, Wallet } from "lucide-react"
 import { useNavigate, useParams } from "react-router-dom"
-import { AIInsightsCard } from "../components/features/SimulationResults/AIInsightsCard"
-import { Card } from "../components/features/SimulationResults/Card"
-import { Button } from "../components/shared/Button"
-import { PageHero } from "../components/shared/PageHero"
-import { useSimulationStorage } from "../hooks/useSimulationStorage"
-import { calcMonthlySavings } from "../utils/simulation"
 
 export function SimulationResultsPage() {
   const navigate = useNavigate()

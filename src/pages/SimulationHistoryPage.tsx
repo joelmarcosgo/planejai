@@ -1,11 +1,11 @@
+import { Button } from '@/components/shared/Button'
+import { PageHero } from '@/components/shared/PageHero'
+import type { SimulationRecord } from '@/data/simulation'
+import { useSimulationStorage } from '@/hooks/useSimulationStorage'
+import { calcMonthlySavings } from '@/utils/simulation'
 import { EyeIcon, Goal, Trash } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Button } from '../components/shared/Button'
-import { PageHero } from '../components/shared/PageHero'
-import type { SimulationRecord } from '../data/simulation'
-import { useSimulationStorage } from '../hooks/useSimulationStorage'
-import { calcMonthlySavings } from '../utils/simulation'
 
 export function SimulationHistoryPage() {
   const navigate = useNavigate()

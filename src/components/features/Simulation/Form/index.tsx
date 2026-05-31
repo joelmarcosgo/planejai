@@ -1,10 +1,9 @@
+import { FormStep } from "@/components/features/Simulation/FormStep"
+import { StepProgress } from "@/components/features/Simulation/Progress"
+import { simulationFormSteps, type SimulationFormData } from "@/data/simulation"
+import { useSimulationStorage } from "@/hooks/useSimulationStorage"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { simulationFormSteps, type SimulationFormData } from "../../../../data/simulation"
-import { useSimulationStorage } from "../../../../hooks/useSimulationStorage"
-import { FormStep } from "../FormStep"
-import { StepProgress } from "../Progress"
-
 
 export const SimulationForm = () => {
   const navigate = useNavigate()

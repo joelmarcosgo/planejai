@@ -1,4 +1,4 @@
-import type { SimulationFormData } from '../data/simulation';
+import type { SimulationFormData } from '@/data/simulation';
 
 const LOCAL_STORAGE_KEY = 'simulation-data'
 

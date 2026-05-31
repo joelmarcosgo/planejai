@@ -1,12 +1,12 @@
+import { Content } from '@/components/features/Insights/Content'
+import { Button } from '@/components/shared/Button'
+import { Input } from '@/components/shared/Input'
+import { askEducator } from '@/data/educatorChat'
+import type { SimulationRecord } from '@/data/simulation'
+import { useConversationStorage } from '@/hooks/useConversationStorage'
+import type { InsightData } from '@/services/aiService'
 import { MessageCircle, Send } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
-import { askEducator } from '../../../data/educatorChat'
-import type { SimulationRecord } from '../../../data/simulation'
-import { useConversationStorage } from '../../../hooks/useConversationStorage'
-import type { InsightData } from '../../../services/aiService'
-import { Button } from '../../shared/Button'
-import { Input } from '../../shared/Input'
-import { Content } from '../Insights/Content'
 
 interface EducatorChatProps {
   simulation: SimulationRecord

@@ -1,6 +1,6 @@
-import type { SimulationRecord } from '../data/simulation'
-import { parseCurrency } from '../utils/currency'
-import { calcMonthlySavings } from '../utils/simulation'
+import type { SimulationRecord } from '@/data/simulation'
+import { parseCurrency } from '@/utils/currency'
+import { calcMonthlySavings } from '@/utils/simulation'
 
 const RESPONSE_SCHEMA = `{
   "feasibility": {

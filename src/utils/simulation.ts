@@ -1,4 +1,4 @@
-import type { SimulationFormData } from "../data/simulation";
+import type { SimulationFormData } from "@/data/simulation";
 import { parseCurrency } from "./currency";
 
 export function calcMonthlySavings(data: SimulationFormData) {

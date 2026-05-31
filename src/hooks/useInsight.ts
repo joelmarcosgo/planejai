@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-import { buildAIPrompt } from '../data/aiPrompt'
-import type { SimulationRecord } from '../data/simulation'
-import { getInsight, type InsightData } from '../services/aiService'
+import { buildAIPrompt } from '@/data/aiPrompt'
+import type { SimulationRecord } from '@/data/simulation'
+import { getInsight, type InsightData } from '@/services/aiService'
 import { useSimulationStorage } from './useSimulationStorage'
 
 export const useInsight = (id: string) => {

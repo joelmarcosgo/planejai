@@ -1,6 +1,6 @@
-import type { SimulationRecord } from '../data/simulation'
-import { askGemini } from '../services/aiService'
-import { calcMonthlySavings } from '../utils/simulation'
+import type { SimulationRecord } from '@/data/simulation'
+import { askGemini } from '@/services/aiService'
+import { calcMonthlySavings } from '@/utils/simulation'
 
 export const askEducator = async (
   question: string,

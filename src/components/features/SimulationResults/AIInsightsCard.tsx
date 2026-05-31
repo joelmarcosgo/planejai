@@ -1,9 +1,9 @@
+import type { SimulationRecord } from '@/data/simulation'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
-import type { SimulationRecord } from '../../../data/simulation'
 
-import { useInsight } from '../../../hooks/useInsight'
-import { Error } from '../Insights/Error'
+import { Error } from '@/components/features/Insights/Error'
+import { useInsight } from '@/hooks/useInsight'
 import { EducatorChat } from './EducatorChat'
 
 interface AIInsightCardProps {
